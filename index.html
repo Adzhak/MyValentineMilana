@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Будешь ли ты моей валентинкой?</title>
+    <title>Для Миланы ❤️</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Comic Sans MS', 'Segoe UI', cursive, sans-serif;
         }
         
         body {
@@ -18,422 +18,509 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            background: linear-gradient(135deg, #ffb6c1, #ff69b4, #ff1493);
             overflow: hidden;
-            transition: background-image 0.8s ease;
             position: relative;
+        }
+        
+        /* Падающие сердечки */
+        .hearts-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+            top: -50px;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
         }
         
         .container {
             text-align: center;
-            padding: 30px;
+            padding: 50px 40px;
             background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
             width: 90%;
             position: relative;
             z-index: 10;
-            backdrop-filter: blur(5px);
-            border: 10px solid transparent;
-            border-image: linear-gradient(45deg, #ff758c, #ff7eb3) 1;
+            border: 15px solid transparent;
+            border-image: linear-gradient(45deg, #ff69b4, #ff1493) 1;
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 20px 50px rgba(255, 105, 180, 0.3); }
+            100% { box-shadow: 0 20px 60px rgba(255, 20, 147, 0.5); }
         }
         
         h1 {
-            color: #ff4d7e;
-            margin-bottom: 20px;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        p {
-            color: #666;
-            font-size: 1.2rem;
-            line-height: 1.6;
+            color: #ff1493;
             margin-bottom: 30px;
+            font-size: 3rem;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(to right, #ff69b4, #ff1493);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding: 10px;
         }
         
-        .hearts {
-            font-size: 2rem;
-            color: #ff4d7e;
-            margin: 20px 0;
-            animation: pulse 1.5s infinite;
+        .cat-container {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 30px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            border: 5px solid #ffb6c1;
+            background-color: white;
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        .cat-gif {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .question {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 40px;
+            font-weight: bold;
+            padding: 15px;
+            background-color: rgba(255, 182, 193, 0.2);
+            border-radius: 15px;
+            border-left: 5px solid #ff69b4;
+            border-right: 5px solid #ff69b4;
         }
         
         .buttons-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 30px;
             flex-wrap: wrap;
             margin-top: 20px;
             position: relative;
-            min-height: 80px;
+            min-height: 100px;
         }
         
         .btn {
-            padding: 15px 40px;
-            font-size: 1.5rem;
+            padding: 18px 50px;
+            font-size: 1.8rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
             z-index: 20;
+            min-width: 180px;
         }
         
         .yes-btn {
-            background: linear-gradient(to right, #ff7eb3, #ff758c);
+            background: linear-gradient(to right, #ff69b4, #ff1493);
             color: white;
+            border: 3px solid #ff69b4;
         }
         
         .no-btn {
-            background: linear-gradient(to right, #6a89cc, #4a69bd);
+            background: linear-gradient(to right, #9370db, #8a2be2);
             color: white;
             transition: all 0.1s ease;
             position: absolute;
+            border: 3px solid #9370db;
         }
         
         .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
         }
         
         .btn:active {
-            transform: translateY(0);
+            transform: translateY(-2px);
         }
         
         .yes-btn:hover {
-            background: linear-gradient(to right, #ff6fa3, #ff6480);
+            background: linear-gradient(to right, #ff1493, #ff69b4);
         }
         
         .hidden {
             display: none;
         }
         
-        .message {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            animation: fadeIn 1s ease;
+        .success-container {
+            animation: fadeIn 1.5s ease;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
         
         .final-title {
-            color: #ff4d7e;
-            font-size: 3rem;
-            margin-bottom: 20px;
+            color: #ff1493;
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            background: linear-gradient(to right, #ff69b4, #ff1493);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         
         .final-text {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: #333;
             margin-bottom: 20px;
+            line-height: 1.6;
         }
         
-        .heart-container {
-            font-size: 4rem;
-            color: #ff4d7e;
-            animation: float 3s ease-in-out infinite;
+        .timer-container {
+            background-color: rgba(255, 182, 193, 0.2);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 3px dashed #ff69b4;
         }
         
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+        .timer {
+            font-size: 2.5rem;
+            color: #ff1493;
+            font-weight: bold;
+            margin: 15px 0;
+            font-family: monospace;
+            letter-spacing: 3px;
         }
         
-        .background-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.4;
-            z-index: 1;
-            transition: opacity 0.8s ease;
+        .timer-label {
+            font-size: 1.5rem;
+            color: #8a2be2;
+            margin-top: 15px;
+            font-weight: bold;
         }
         
-        .confetti-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-            overflow: hidden;
+        .love-message {
+            font-size: 1.5rem;
+            color: #333;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(255, 105, 180, 0.1);
+            border-radius: 15px;
+            border-left: 5px solid #ff1493;
+            border-right: 5px solid #ff1493;
+            line-height: 1.6;
         }
         
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ff4d7e;
-            top: -10px;
-            opacity: 0.8;
+        .hearts-footer {
+            font-size: 2.5rem;
+            color: #ff69b4;
+            margin: 30px 0;
+            animation: pulse 2s infinite;
         }
         
-        @keyframes fall {
-            0% {
-                top: -10px;
-                transform: rotate(0deg);
-            }
-            100% {
-                top: 100vh;
-                transform: rotate(360deg);
-            }
-        }
-        
-        .cat-message {
-            margin-top: 20px;
-            font-style: italic;
-            color: #ff4d7e;
-            font-size: 1.1rem;
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
         }
         
         footer {
             position: absolute;
-            bottom: 10px;
+            bottom: 20px;
             width: 100%;
             text-align: center;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.1rem;
             z-index: 10;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
         
         /* Адаптивность */
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .final-title { font-size: 2.2rem; }
-            .btn { padding: 12px 30px; font-size: 1.2rem; }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .final-title { font-size: 2.5rem; }
+            .btn { padding: 15px 35px; font-size: 1.5rem; min-width: 150px; }
+            .question { font-size: 1.5rem; }
+            .timer { font-size: 1.8rem; }
+            .container { padding: 30px 25px; }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8rem; }
+            .final-title { font-size: 2rem; }
+            .btn { padding: 12px 25px; font-size: 1.3rem; min-width: 130px; }
+            .buttons-container { gap: 15px; }
+            .cat-container { width: 200px; height: 200px; }
         }
     </style>
 </head>
 <body>
-    <!-- Фоновые изображения будут меняться динамически -->
-    <div class="background-image" id="background-image" style="background-image: url('https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+    <!-- Падающие сердечки на фоне -->
+    <div class="hearts-background" id="hearts-background"></div>
     
+    <!-- Основной контейнер -->
     <div class="container" id="main-container">
-        <div class="hearts">
-            <i class="fas fa-heart"></i>
-            <i class="fas fa-heart"></i>
-            <i class="fas fa-heart"></i>
+        <div class="cat-container">
+            <!-- Милый котик (начальная гифка) -->
+            <img src="https://i.pinimg.com/originals/8b/3c/96/8b3c96a8b30b2fe6d8ab6a4c8f7c1b8a.gif" alt="Милый котик" class="cat-gif" id="cat-gif">
         </div>
         
-        <h1>Будешь ли ты моей валентинкой?</h1>
-        
-        <p>Дорогая, в этот особенный день я хочу спросить тебя об одном очень важном для меня вопросе. Ты делаешь мои дни ярче, а сердце бьется чаще!</p>
-        
-        <div class="cat-message" id="cat-message">Выбери "Да" и увидишь счастливых котиков! 🐱❤️</div>
+        <div class="question">Милана, будешь моей валентинкой?</div>
         
         <div class="buttons-container">
-            <button class="btn yes-btn" id="yes-btn">ДА!</button>
-            <button class="btn no-btn" id="no-btn" style="position: absolute;">Нет</button>
+            <button class="btn yes-btn" id="yes-btn">Да!</button>
+            <button class="btn no-btn" id="no-btn">Нет</button>
         </div>
     </div>
     
-    <!-- Контейнер для конфетти -->
-    <div class="confetti-container" id="confetti-container"></div>
-    
-    <!-- Финальное сообщение (изначально скрыто) -->
-    <div class="container hidden" id="success-container">
-        <div class="heart-container">
-            <i class="fas fa-heart"></i>
+    <!-- Финальный экран (изначально скрыт) -->
+    <div class="container hidden success-container" id="success-container">
+        <div class="cat-container">
+            <!-- Влюбленные котики (финальная гифка) -->
+            <img src="https://i.pinimg.com/originals/f5/2b/86/f52b86ccf4d6c8c6e02979738b79e80f.gif" alt="Влюбленные котики" class="cat-gif">
         </div>
         
-        <h1 class="final-title">УРААА! 🎉</h1>
+        <h1 class="final-title">ДА! ❤️</h1>
         
-        <p class="final-text">Я так счастлив(а)! Ты сделал(а) мой день особенным! С Днем святого Валентина! ❤️</p>
+        <div class="final-text">Я так счастлив! Ты сделала мой день особенным!</div>
         
-        <p>Теперь мы как эти счастливые котики! 🐱🐱</p>
+        <!-- Счетчик времени -->
+        <div class="timer-container">
+            <div class="final-text">Мы уже вместе:</div>
+            <div class="timer" id="timer">0 дней 00:00:00</div>
+            <div class="timer-label" id="timer-label">С 11 августа 01:00</div>
+        </div>
         
-        <div class="hearts" style="margin-top: 30px;">
+        <div class="love-message">
+            И все это время люблю тебя очень сильно<br>
+            и буду любить еще очень долго! 💕
+        </div>
+        
+        <div class="hearts-footer">
             <i class="fas fa-heart"></i>
             <i class="fas fa-heart"></i>
             <i class="fas fa-heart"></i>
         </div>
-        
-        <div class="cat-message">Спасибо, что сказал(а) "Да"! Теперь у нас будет много счастливых моментов вместе! 💕</div>
     </div>
     
     <footer>
-        Сделано с ❤️ для особенного человека | День святого Валентина
+        Сделано с бесконечной любовью для Миланы ❤️ | День святого Валентина
     </footer>
 
     <script>
-        // Массив ГРУСТНЫХ котиков (для кнопки "Нет")
-        const sadCats = [
-            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1548546738-8509cb246ed3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+        // Массив текстов для кнопки "Нет"
+        const noButtonTexts = [
+            "Нет",
+            "Точно нет?",
+            "Ты уверена?",
+            "Может передумаешь?",
+            "Подумай еще раз!",
+            "Я буду очень грустить...",
+            "Мне будет очень грустно",
+            "Давай еще раз подумаем?",
+            "Я так надеялся...",
+            "Это твой окончательный ответ?"
         ];
         
-        // Массив СЧАСТЛИВЫХ котиков (для кнопки "Да")
-        const happyCats = [
-            'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
-        ];
+        // Начальные гифки
+        const singleCatGif = "https://i.pinimg.com/originals/8b/3c/96/8b3c96a8b30b2fe6d8ab6a4c8f7c1b8a.gif";
+        const coupleCatsGif = "https://i.pinimg.com/originals/f5/2b/86/f52b86ccf4d6c8c6e02979738b79e80f.gif";
         
-        // Сообщения для грустных котиков
-        const sadMessages = [
-            "Ой, нет! Котик расстроился 😿",
-            "Не делай котика грустным!",
-            "Котик ждал другого ответа...",
-            "Посмотри на эти печальные глазки 🥺",
-            "Котик надеется, что ты передумаешь!"
-        ];
+        // Дата начала отношений (11 августа 01:00)
+        const startDate = new Date('2023-08-11T01:00:00');
         
         // Элементы DOM
         const yesBtn = document.getElementById('yes-btn');
         const noBtn = document.getElementById('no-btn');
         const mainContainer = document.getElementById('main-container');
         const successContainer = document.getElementById('success-container');
-        const backgroundImage = document.getElementById('background-image');
-        const confettiContainer = document.getElementById('confetti-container');
-        const catMessage = document.getElementById('cat-message');
+        const catGif = document.getElementById('cat-gif');
+        const timerElement = document.getElementById('timer');
+        const timerLabel = document.getElementById('timer-label');
+        const heartsBackground = document.getElementById('hearts-background');
         
-        let noClicks = 0;
-        let currentSadCatIndex = 0;
+        let noClickCount = 0;
+        let noButtonPosition = { x: 0, y: 0 };
         
-        // Функция для изменения позиции кнопки "Нет"
+        // Создаем падающие сердечки
+        function createFallingHearts() {
+            const heartsCount = 50;
+            
+            for (let i = 0; i < heartsCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                
+                // Случайная позиция
+                const left = Math.random() * 100;
+                heart.style.left = `${left}vw`;
+                
+                // Случайный размер
+                const size = Math.random() * 25 + 15;
+                heart.style.fontSize = `${size}px`;
+                
+                // Случайная скорость
+                const duration = Math.random() * 5 + 10;
+                const delay = Math.random() * 5;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.animationDelay = `${delay}s`;
+                
+                heartsBackground.appendChild(heart);
+            }
+        }
+        
+        // Функция для обновления счетчика времени
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            
+            // Вычисляем дни, часы, минуты и секунды
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            // Форматируем время
+            const formattedTime = `${days} дней ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Обновляем элемент таймера
+            timerElement.textContent = formattedTime;
+            
+            // Обновляем подпись
+            timerLabel.textContent = `С 11 августа 01:00 (уже ${days} ${getDayWord(days)})`;
+        }
+        
+        // Функция для получения правильной формы слова "день"
+        function getDayWord(days) {
+            if (days % 10 === 1 && days % 100 !== 11) {
+                return "день";
+            } else if ([2, 3, 4].includes(days % 10) && ![12, 13, 14].includes(days % 100)) {
+                return "дня";
+            } else {
+                return "дней";
+            }
+        }
+        
+        // Функция для перемещения кнопки "Нет"
         function moveNoButton() {
             // Получаем размеры контейнера и кнопки
             const containerRect = mainContainer.getBoundingClientRect();
             const buttonRect = noBtn.getBoundingClientRect();
             
             // Вычисляем максимальные координаты для кнопки внутри контейнера
-            const maxX = containerRect.width - buttonRect.width - 20;
-            const maxY = containerRect.height - buttonRect.height - 20;
+            const maxX = containerRect.width - buttonRect.width - 40;
+            const maxY = containerRect.height - buttonRect.height - 40;
             
-            // Генерируем случайные координаты
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
+            // Генерируем случайные координаты, отличные от текущих
+            let randomX, randomY;
+            do {
+                randomX = Math.random() * maxX;
+                randomY = Math.random() * maxY;
+            } while (
+                Math.abs(randomX - noButtonPosition.x) < 50 && 
+                Math.abs(randomY - noButtonPosition.y) < 50
+            );
+            
+            // Сохраняем новую позицию
+            noButtonPosition = { x: randomX, y: randomY };
             
             // Устанавливаем новые координаты кнопки
             noBtn.style.position = 'absolute';
             noBtn.style.left = `${randomX}px`;
             noBtn.style.top = `${randomY}px`;
             
-            // Меняем на грустного котика
-            changeToSadCat();
+            // Меняем текст кнопки (перебираем массив)
+            noClickCount++;
+            const textIndex = Math.min(noClickCount - 1, noButtonTexts.length - 1);
+            noBtn.textContent = noButtonTexts[textIndex];
             
-            // Меняем сообщение
-            changeSadMessage();
-        }
-        
-        // Функция для смены на грустного котика
-        function changeToSadCat() {
-            // Выбираем следующего грустного котика из массива
-            currentSadCatIndex = (currentSadCatIndex + 1) % sadCats.length;
-            backgroundImage.style.backgroundImage = `url('${sadCats[currentSadCatIndex]}')`;
-            backgroundImage.style.opacity = "0.5";
-        }
-        
-        // Функция для смены сообщения при нажатии "Нет"
-        function changeSadMessage() {
-            const randomIndex = Math.floor(Math.random() * sadMessages.length);
-            catMessage.textContent = sadMessages[randomIndex] + " 🐱";
-            catMessage.style.color = "#4a69bd";
-        }
-        
-        // Функция для создания конфетти
-        function createConfetti() {
-            // Очищаем контейнер от предыдущих конфетти
-            confettiContainer.innerHTML = '';
-            
-            // Создаем 150 конфетти
-            for (let i = 0; i < 150; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti');
-                
-                // Случайный цвет конфетти
-                const colors = ['#ff4d7e', '#ff7eb3', '#ffafbd', '#ffc3a0', '#ffd166', '#ffafcc'];
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.backgroundColor = randomColor;
-                
-                // Случайный размер
-                const size = Math.random() * 10 + 5;
-                confetti.style.width = `${size}px`;
-                confetti.style.height = `${size}px`;
-                
-                // Случайная начальная позиция
-                confetti.style.left = `${Math.random() * 100}vw`;
-                
-                // Случайная анимация
-                const animationDuration = Math.random() * 3 + 2;
-                confetti.style.animation = `fall ${animationDuration}s linear forwards`;
-                
-                // Добавляем конфетти в контейнер
-                confettiContainer.appendChild(confetti);
+            // Если превысили массив, начинаем сначала
+            if (noClickCount >= noButtonTexts.length) {
+                noClickCount = 0;
             }
             
-            // Удаляем конфетти через 5 секунд
-            setTimeout(() => {
-                confettiContainer.innerHTML = '';
-            }, 5000);
+            // Добавляем анимацию
+            noBtn.style.transition = 'all 0.3s ease';
         }
         
         // Обработчик для кнопки "ДА"
         yesBtn.addEventListener('click', function() {
-            // Создаем эффект конфетти
-            createConfetti();
+            // Меняем гифку на влюбленных котиков
+            catGif.src = coupleCatsGif;
             
-            // Меняем на счастливого котика (случайного из массива)
-            const randomHappyIndex = Math.floor(Math.random() * happyCats.length);
-            backgroundImage.style.backgroundImage = `url('${happyCats[randomHappyIndex]}')`;
-            backgroundImage.style.opacity = "0.6";
-            
-            // Показываем финальное сообщение
+            // Показываем финальный экран
             mainContainer.classList.add('hidden');
             successContainer.classList.remove('hidden');
             
-            // Добавляем анимацию для финального сообщения
-            successContainer.style.animation = 'fadeIn 1s ease';
-        });
-        
-        // Обработчик для кнопки "Нет"
-        noBtn.addEventListener('mouseover', function() {
-            // Немного двигаем кнопку при наведении (только после первого клика)
-            if (noClicks > 0) {
-                const buttonRect = noBtn.getBoundingClientRect();
-                noBtn.style.transform = `translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px)`;
+            // Запускаем таймер
+            updateTimer();
+            setInterval(updateTimer, 1000);
+            
+            // Добавляем дополнительные сердечки для праздника
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '❤️';
+                    heart.style.left = `${Math.random() * 100}vw`;
+                    heart.style.fontSize = `${Math.random() * 30 + 20}px`;
+                    heart.style.color = '#ff1493';
+                    heart.style.animationDuration = `${Math.random() * 3 + 5}s`;
+                    heartsBackground.appendChild(heart);
+                    
+                    // Удаляем сердечко после анимации
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 8000);
+                }, i * 200);
             }
         });
         
-        noBtn.addEventListener('mouseout', function() {
-            // Возвращаем кнопку на место когда курсор уходит
-            noBtn.style.transform = 'translate(0, 0)';
+        // Обработчик для кнопки "Нет"
+        noBtn.addEventListener('click', moveNoButton);
+        
+        // Обработчик для наведения на кнопку "Нет" (немного двигает кнопку)
+        noBtn.addEventListener('mouseover', function() {
+            if (noClickCount > 0) {
+                const currentX = parseInt(noBtn.style.left) || 0;
+                const currentY = parseInt(noBtn.style.top) || 0;
+                
+                noBtn.style.left = `${currentX + (Math.random() * 20 - 10)}px`;
+                noBtn.style.top = `${currentY + (Math.random() * 20 - 10)}px`;
+            }
         });
         
-        noBtn.addEventListener('click', function() {
-            noClicks++;
-            moveNoButton();
+        // Инициализация при загрузке
+        window.addEventListener('load', function() {
+            // Создаем падающие сердечки
+            createFallingHearts();
+            
+            // Устанавливаем начальную позицию кнопки "Нет"
+            const containerRect = mainContainer.getBoundingClientRect();
+            const buttonRect = noBtn.getBoundingClientRect();
+            noButtonPosition = {
+                x: containerRect.width - buttonRect.width - 100,
+                y: containerRect.height - buttonRect.height - 50
+            };
+            
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${noButtonPosition.x}px`;
+            noBtn.style.top = `${noButtonPosition.y}px`;
         });
-        
-        // Инициализация - первое фоновое изображение (счастливый котик)
-        backgroundImage.style.backgroundImage = `url('${happyCats[0]}')`;
     </script>
 </body>
 </html>
