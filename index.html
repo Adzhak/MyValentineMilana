@@ -112,11 +112,11 @@
         .buttons-container {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
             flex-wrap: wrap;
             margin-top: 20px;
             position: relative;
-            min-height: 100px;
+            min-height: 80px;
         }
         
         .btn {
@@ -138,14 +138,14 @@
             background: linear-gradient(to right, #ff7eb3, #ff758c);
             color: white;
             border: 3px solid #ff7eb3;
+            position: relative;
         }
         
         .no-btn {
             background: linear-gradient(to right, #a78bfa, #8b5cf6);
             color: white;
             border: 3px solid #a78bfa;
-            position: static; /* Изменено с absolute на static */
-            margin-left: 20px;
+            position: relative;
         }
         
         .btn:hover {
@@ -197,32 +197,32 @@
         
         .timer-container {
             background-color: rgba(255, 182, 193, 0.2);
-            padding: 25px;
+            padding: 30px;
             border-radius: 20px;
             margin: 30px 0;
             border: 3px dashed #ff69b4;
         }
         
-        .timer {
-            font-size: 2.5rem;
-            color: #ff1493;
-            font-weight: bold;
-            margin: 15px 0;
-            font-family: monospace;
-            letter-spacing: 3px;
-        }
-        
         .love-message {
             font-size: 1.8rem;
             color: #d1478c;
-            margin-top: 30px;
-            padding: 25px;
-            background-color: rgba(255, 105, 180, 0.1);
-            border-radius: 20px;
-            border-left: 5px solid #ff1493;
-            border-right: 5px solid #ff1493;
+            padding: 20px;
             line-height: 1.6;
             font-weight: bold;
+        }
+        
+        .time-counter {
+            font-size: 2.2rem;
+            color: #ff1493;
+            font-weight: bold;
+            font-family: monospace;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #ffb6c1;
         }
         
         .hearts-footer {
@@ -255,18 +255,21 @@
             .final-title { font-size: 2.5rem; }
             .btn { padding: 18px 40px; font-size: 1.6rem; min-width: 160px; }
             .question { font-size: 1.6rem; }
-            .timer { font-size: 2rem; }
             .container { padding: 30px 25px; }
             .love-message { font-size: 1.5rem; }
+            .time-counter { font-size: 1.8rem; }
+            .buttons-container { gap: 20px; }
         }
         
         @media (max-width: 480px) {
             h1 { font-size: 1.8rem; }
             .final-title { font-size: 2rem; }
             .btn { padding: 15px 30px; font-size: 1.4rem; min-width: 140px; }
-            .buttons-container { gap: 15px; flex-direction: column; }
+            .buttons-container { gap: 15px; }
             .cat-container { width: 200px; height: 200px; }
             .question { font-size: 1.4rem; }
+            .love-message { font-size: 1.3rem; }
+            .time-counter { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -302,9 +305,8 @@
         
         <!-- Счетчик времени -->
         <div class="timer-container">
-            <div class="timer" id="timer">0 дней 00:00:00</div>
-            <div class="love-message" id="love-message">
-                Мы уже <span id="time-counter">0 дней 00:00:00</span> вместе,<br>
+            <div class="love-message">
+                Мы уже <span class="time-counter" id="time-counter">0 дней 00:00:00</span> вместе,<br>
                 и все это время люблю тебя очень сильно<br>
                 и буду любить очень сильно еще очень долго! 💕
             </div>
@@ -349,12 +351,12 @@
         const mainContainer = document.getElementById('main-container');
         const successContainer = document.getElementById('success-container');
         const catGif = document.getElementById('cat-gif');
-        const timerElement = document.getElementById('timer');
         const timeCounter = document.getElementById('time-counter');
         const heartsBackground = document.getElementById('hearts-background');
         
         let noClickCount = 0;
-        
+        let noBtnOriginalPosition = null;
+
         // Создаем падающие сердечки
         function createFallingHearts() {
             const heartsCount = 50;
@@ -389,7 +391,6 @@
             
             // Если дата в будущем, показываем 0
             if (diff < 0) {
-                timerElement.textContent = "0 дней 00:00:00";
                 timeCounter.textContent = "0 дней 00:00:00";
                 return;
             }
@@ -403,8 +404,7 @@
             // Форматируем время
             const formattedTime = `${days} ${getDayWord(days)} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
-            // Обновляем элементы
-            timerElement.textContent = formattedTime;
+            // Обновляем элемент
             timeCounter.textContent = formattedTime;
         }
         
@@ -421,6 +421,16 @@
         
         // Функция для перемещения кнопки "Нет"
         function moveNoButton() {
+            // Сохраняем оригинальную позицию при первом клике
+            if (!noBtnOriginalPosition) {
+                const rect = noBtn.getBoundingClientRect();
+                const containerRect = mainContainer.getBoundingClientRect();
+                noBtnOriginalPosition = {
+                    left: rect.left - containerRect.left,
+                    top: rect.top - containerRect.top
+                };
+            }
+            
             // Получаем размеры контейнера и кнопки
             const containerRect = mainContainer.getBoundingClientRect();
             const buttonRect = noBtn.getBoundingClientRect();
@@ -450,6 +460,16 @@
             
             // Добавляем анимацию
             noBtn.style.transition = 'all 0.3s ease';
+        }
+        
+        // Функция для возврата кнопки "Нет" на место
+        function resetNoButtonPosition() {
+            if (noBtnOriginalPosition) {
+                noBtn.style.position = 'absolute';
+                noBtn.style.left = `${noBtnOriginalPosition.left}px`;
+                noBtn.style.top = `${noBtnOriginalPosition.top}px`;
+                noBtn.style.transition = 'all 0.5s ease';
+            }
         }
         
         // Обработчик для кнопки "ДА"
@@ -499,8 +519,8 @@
         // Обработчик для наведения на кнопку "Нет" (немного двигает кнопку)
         noBtn.addEventListener('mouseover', function() {
             if (noClickCount > 0) {
-                const currentX = parseInt(noBtn.style.left) || 0;
-                const currentY = parseInt(noBtn.style.top) || 0;
+                const currentX = parseInt(noBtn.style.left) || noBtnOriginalPosition?.left || 0;
+                const currentY = parseInt(noBtn.style.top) || noBtnOriginalPosition?.top || 0;
                 
                 // Небольшое случайное смещение
                 const newX = Math.max(10, Math.min(currentX + (Math.random() * 40 - 20), mainContainer.offsetWidth - noBtn.offsetWidth - 10));
@@ -511,21 +531,45 @@
             }
         });
         
+        // Возвращаем кнопку на место при уходе курсора (с задержкой)
+        noBtn.addEventListener('mouseout', function() {
+            setTimeout(resetNoButtonPosition, 1000);
+        });
+        
         // Инициализация при загрузке
         window.addEventListener('load', function() {
             // Создаем падающие сердечки
             createFallingHearts();
             
-            // Устанавливаем начальную позицию кнопки "Нет" (в правой части)
-            const containerWidth = mainContainer.offsetWidth;
-            const buttonWidth = noBtn.offsetWidth;
+            // Устанавливаем начальную позицию кнопки "Нет"
+            const buttonsContainer = document.querySelector('.buttons-container');
+            const yesBtnRect = yesBtn.getBoundingClientRect();
+            const containerRect = mainContainer.getBoundingClientRect();
+            
+            // Позиция кнопки "Нет" рядом с кнопкой "Да"
+            const noBtnLeft = yesBtnRect.right - containerRect.left + 40;
+            const noBtnTop = yesBtnRect.top - containerRect.top;
             
             noBtn.style.position = 'absolute';
-            noBtn.style.left = `${containerWidth - buttonWidth - 80}px`;
-            noBtn.style.top = `${mainContainer.offsetHeight - noBtn.offsetHeight - 40}px`;
+            noBtn.style.left = `${noBtnLeft}px`;
+            noBtn.style.top = `${noBtnTop}px`;
+            
+            // Сохраняем оригинальную позицию
+            noBtnOriginalPosition = {
+                left: noBtnLeft,
+                top: noBtnTop
+            };
             
             // Убедимся, что гифки загружены
             catGif.src = singleCatGif;
+            
+            // Принудительно показываем кнопки
+            yesBtn.style.display = 'block';
+            noBtn.style.display = 'block';
+            yesBtn.style.visibility = 'visible';
+            noBtn.style.visibility = 'visible';
+            yesBtn.style.opacity = '1';
+            noBtn.style.opacity = '1';
         });
     </script>
 </body>
