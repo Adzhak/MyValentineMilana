@@ -27,7 +27,7 @@
         .container {
             text-align: center;
             padding: 30px;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             max-width: 600px;
@@ -72,6 +72,8 @@
             gap: 20px;
             flex-wrap: wrap;
             margin-top: 20px;
+            position: relative;
+            min-height: 80px;
         }
         
         .btn {
@@ -85,6 +87,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
+            z-index: 20;
         }
         
         .yes-btn {
@@ -197,14 +200,22 @@
             }
         }
         
+        .cat-message {
+            margin-top: 20px;
+            font-style: italic;
+            color: #ff4d7e;
+            font-size: 1.1rem;
+        }
+        
         footer {
             position: absolute;
             bottom: 10px;
             width: 100%;
             text-align: center;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 0.9rem;
             z-index: 10;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
         
         /* Адаптивность */
@@ -217,7 +228,7 @@
 </head>
 <body>
     <!-- Фоновые изображения будут меняться динамически -->
-    <div class="background-image" id="background-image" style="background-image: url('https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+    <div class="background-image" id="background-image" style="background-image: url('https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
     
     <div class="container" id="main-container">
         <div class="hearts">
@@ -226,13 +237,15 @@
             <i class="fas fa-heart"></i>
         </div>
         
-        <h1>Милана, будешь ли ты моей валентинкой?</h1>
+        <h1>Будешь ли ты моей валентинкой?</h1>
         
-        <p>Дорогая, в этот особенный день я хочу спросить тебя об одном очень важном для меня вопросе. Ты делаешь мои дни ярче, а сердце при виде тебя бьется чаще!</p>
+        <p>Дорогая, в этот особенный день я хочу спросить тебя об одном очень важном для меня вопросе. Ты делаешь мои дни ярче, а сердце бьется чаще!</p>
+        
+        <div class="cat-message" id="cat-message">Выбери "Да" и увидишь счастливых котиков! 🐱❤️</div>
         
         <div class="buttons-container">
             <button class="btn yes-btn" id="yes-btn">ДА!</button>
-            <button class="btn no-btn" id="no-btn" style="position: relative;">Нет</button>
+            <button class="btn no-btn" id="no-btn" style="position: absolute;">Нет</button>
         </div>
     </div>
     
@@ -247,15 +260,17 @@
         
         <h1 class="final-title">УРААА! 🎉</h1>
         
-        <p class="final-text">Я так счастлив! Ты сделала мой день особенным!</p>
+        <p class="final-text">Я так счастлив(а)! Ты сделал(а) мой день особенным! С Днем святого Валентина! ❤️</p>
         
-        <p>Ты - самая лучшая валентинка, о которой я мог(ла) мечтать!</p>
+        <p>Теперь мы как эти счастливые котики! 🐱🐱</p>
         
         <div class="hearts" style="margin-top: 30px;">
             <i class="fas fa-heart"></i>
             <i class="fas fa-heart"></i>
             <i class="fas fa-heart"></i>
         </div>
+        
+        <div class="cat-message">Спасибо, что сказал(а) "Да"! Теперь у нас будет много счастливых моментов вместе! 💕</div>
     </div>
     
     <footer>
@@ -263,14 +278,31 @@
     </footer>
 
     <script>
-        // Массив фоновых изображений (URL из Unsplash, бесплатные для использования)
-        const backgroundImages = [
-            'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1511984804822-e16ba72f5840?ixlib=rb-1.2.1&auto=format&fit=crop&w-1350&q=80',
-            'https://images.unsplash.com/photo-1547483238-2d96f2f6c5ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1516487200032-8532cb603261?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-            'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+        // Массив ГРУСТНЫХ котиков (для кнопки "Нет")
+        const sadCats = [
+            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1548546738-8509cb246ed3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+        ];
+        
+        // Массив СЧАСТЛИВЫХ котиков (для кнопки "Да")
+        const happyCats = [
+            'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+        ];
+        
+        // Сообщения для грустных котиков
+        const sadMessages = [
+            "Ой, нет! Котик расстроился 😿",
+            "Не делай котика грустным!",
+            "Котик ждал другого ответа...",
+            "Посмотри на эти печальные глазки 🥺",
+            "Котик надеется, что ты передумаешь!"
         ];
         
         // Элементы DOM
@@ -280,9 +312,10 @@
         const successContainer = document.getElementById('success-container');
         const backgroundImage = document.getElementById('background-image');
         const confettiContainer = document.getElementById('confetti-container');
+        const catMessage = document.getElementById('cat-message');
         
         let noClicks = 0;
-        let currentImageIndex = 0;
+        let currentSadCatIndex = 0;
         
         // Функция для изменения позиции кнопки "Нет"
         function moveNoButton() {
@@ -303,18 +336,26 @@
             noBtn.style.left = `${randomX}px`;
             noBtn.style.top = `${randomY}px`;
             
-            // Меняем фоновое изображение после каждого 2го нажатия
-            noClicks++;
-            if (noClicks % 2 === 0) {
-                changeBackgroundImage();
-            }
+            // Меняем на грустного котика
+            changeToSadCat();
+            
+            // Меняем сообщение
+            changeSadMessage();
         }
         
-        // Функция для смены фонового изображения
-        function changeBackgroundImage() {
-            // Выбираем следующее изображение из массива
-            currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
-            backgroundImage.style.backgroundImage = `url('${backgroundImages[currentImageIndex]}')`;
+        // Функция для смены на грустного котика
+        function changeToSadCat() {
+            // Выбираем следующего грустного котика из массива
+            currentSadCatIndex = (currentSadCatIndex + 1) % sadCats.length;
+            backgroundImage.style.backgroundImage = `url('${sadCats[currentSadCatIndex]}')`;
+            backgroundImage.style.opacity = "0.5";
+        }
+        
+        // Функция для смены сообщения при нажатии "Нет"
+        function changeSadMessage() {
+            const randomIndex = Math.floor(Math.random() * sadMessages.length);
+            catMessage.textContent = sadMessages[randomIndex] + " 🐱";
+            catMessage.style.color = "#4a69bd";
         }
         
         // Функция для создания конфетти
@@ -359,8 +400,9 @@
             // Создаем эффект конфетти
             createConfetti();
             
-            // Меняем фон на праздничный
-            backgroundImage.style.backgroundImage = "url('https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')";
+            // Меняем на счастливого котика (случайного из массива)
+            const randomHappyIndex = Math.floor(Math.random() * happyCats.length);
+            backgroundImage.style.backgroundImage = `url('${happyCats[randomHappyIndex]}')`;
             backgroundImage.style.opacity = "0.6";
             
             // Показываем финальное сообщение
@@ -373,17 +415,25 @@
         
         // Обработчик для кнопки "Нет"
         noBtn.addEventListener('mouseover', function() {
-            // Немного двигаем кнопку при наведении
+            // Немного двигаем кнопку при наведении (только после первого клика)
             if (noClicks > 0) {
                 const buttonRect = noBtn.getBoundingClientRect();
                 noBtn.style.transform = `translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px)`;
             }
         });
         
-        noBtn.addEventListener('click', moveNoButton);
+        noBtn.addEventListener('mouseout', function() {
+            // Возвращаем кнопку на место когда курсор уходит
+            noBtn.style.transform = 'translate(0, 0)';
+        });
         
-        // Инициализация - первое фоновое изображение
-        changeBackgroundImage();
+        noBtn.addEventListener('click', function() {
+            noClicks++;
+            moveNoButton();
+        });
+        
+        // Инициализация - первое фоновое изображение (счастливый котик)
+        backgroundImage.style.backgroundImage = `url('${happyCats[0]}')`;
     </script>
 </body>
 </html>
