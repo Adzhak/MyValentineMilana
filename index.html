@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Для Миланы ❤️</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><path fill='%23ff1493' d='M50,90 C70,70 85,55 85,35 C85,15 65,5 50,15 C35,5 15,15 15,35 C15,55 30,70 50,90 Z'/></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -30,6 +31,7 @@
             height: 100%;
             overflow: hidden;
             z-index: 1;
+            pointer-events: none; /* ВАЖНО: сердечки не будут перехватывать клики */
         }
         
         .heart {
@@ -38,6 +40,7 @@
             font-size: 20px;
             top: -50px;
             animation: fall linear infinite;
+            pointer-events: none; /* ВАЖНО: сердечки не будут перехватывать клики */
         }
         
         @keyframes fall {
@@ -55,7 +58,7 @@
             max-width: 700px;
             width: 90%;
             position: relative;
-            z-index: 10;
+            z-index: 20; /* УВЕЛИЧИЛ Z-INDEX чтобы контейнер был выше сердечек */
             border: 12px solid #ffb6c1;
             animation: glow 2s infinite alternate;
         }
@@ -89,6 +92,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            z-index: 25;
         }
         
         .cat-gif {
@@ -107,6 +112,8 @@
             border-radius: 20px;
             border: 3px solid #ffb6c1;
             line-height: 1.4;
+            position: relative;
+            z-index: 25;
         }
         
         .buttons-container {
@@ -117,6 +124,7 @@
             margin-top: 20px;
             position: relative;
             min-height: 80px;
+            z-index: 30; /* УВЕЛИЧИЛ Z-INDEX для контейнера кнопок */
         }
         
         .btn {
@@ -130,7 +138,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
-            z-index: 20;
+            z-index: 40; /* УВЕЛИЧИЛ Z-INDEX для кнопок */
             min-width: 200px;
         }
         
@@ -201,6 +209,8 @@
             border-radius: 20px;
             margin: 30px 0;
             border: 3px dashed #ff69b4;
+            position: relative;
+            z-index: 25;
         }
         
         .love-message {
@@ -265,11 +275,12 @@
             h1 { font-size: 1.8rem; }
             .final-title { font-size: 2rem; }
             .btn { padding: 15px 30px; font-size: 1.4rem; min-width: 140px; }
-            .buttons-container { gap: 15px; }
+            .buttons-container { gap: 15px; flex-direction: column; align-items: center; }
             .cat-container { width: 200px; height: 200px; }
             .question { font-size: 1.4rem; }
             .love-message { font-size: 1.3rem; }
             .time-counter { font-size: 1.5rem; }
+            .no-btn { margin-top: 10px; }
         }
     </style>
 </head>
@@ -355,7 +366,7 @@
         const heartsBackground = document.getElementById('hearts-background');
         
         let noClickCount = 0;
-        let noBtnOriginalPosition = null;
+        let isNoBtnAbsolute = false;
 
         // Создаем падающие сердечки
         function createFallingHearts() {
@@ -421,15 +432,25 @@
         
         // Функция для перемещения кнопки "Нет"
         function moveNoButton() {
-            // Сохраняем оригинальную позицию при первом клике
-            if (!noBtnOriginalPosition) {
-                const rect = noBtn.getBoundingClientRect();
+            // Включаем абсолютное позиционирование при первом клике
+            if (!isNoBtnAbsolute) {
+                noBtn.style.position = 'absolute';
+                isNoBtnAbsolute = true;
+                
+                // Устанавливаем начальную позицию рядом с кнопкой "Да"
+                const yesBtnRect = yesBtn.getBoundingClientRect();
                 const containerRect = mainContainer.getBoundingClientRect();
-                noBtnOriginalPosition = {
-                    left: rect.left - containerRect.left,
-                    top: rect.top - containerRect.top
-                };
+                
+                const noBtnLeft = yesBtnRect.right - containerRect.left + 40;
+                const noBtnTop = yesBtnRect.top - containerRect.top;
+                
+                noBtn.style.left = `${noBtnLeft}px`;
+                noBtn.style.top = `${noBtnTop}px`;
             }
+            
+            // Получаем текущие координаты кнопки
+            const currentLeft = parseInt(noBtn.style.left) || 0;
+            const currentTop = parseInt(noBtn.style.top) || 0;
             
             // Получаем размеры контейнера и кнопки
             const containerRect = mainContainer.getBoundingClientRect();
@@ -440,11 +461,16 @@
             const maxY = containerRect.height - buttonRect.height - 40;
             
             // Генерируем случайные координаты
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
+            let randomX, randomY;
+            do {
+                randomX = Math.random() * maxX;
+                randomY = Math.random() * maxY;
+            } while (
+                Math.abs(randomX - currentLeft) < 50 && 
+                Math.abs(randomY - currentTop) < 50
+            );
             
-            // Устанавливаем абсолютное позиционирование и новые координаты
-            noBtn.style.position = 'absolute';
+            // Устанавливаем новые координаты кнопки
             noBtn.style.left = `${randomX}px`;
             noBtn.style.top = `${randomY}px`;
             
@@ -460,16 +486,6 @@
             
             // Добавляем анимацию
             noBtn.style.transition = 'all 0.3s ease';
-        }
-        
-        // Функция для возврата кнопки "Нет" на место
-        function resetNoButtonPosition() {
-            if (noBtnOriginalPosition) {
-                noBtn.style.position = 'absolute';
-                noBtn.style.left = `${noBtnOriginalPosition.left}px`;
-                noBtn.style.top = `${noBtnOriginalPosition.top}px`;
-                noBtn.style.transition = 'all 0.5s ease';
-            }
         }
         
         // Обработчик для кнопки "ДА"
@@ -518,22 +534,29 @@
         
         // Обработчик для наведения на кнопку "Нет" (немного двигает кнопку)
         noBtn.addEventListener('mouseover', function() {
-            if (noClickCount > 0) {
-                const currentX = parseInt(noBtn.style.left) || noBtnOriginalPosition?.left || 0;
-                const currentY = parseInt(noBtn.style.top) || noBtnOriginalPosition?.top || 0;
+            if (isNoBtnAbsolute) {
+                const currentX = parseInt(noBtn.style.left) || 0;
+                const currentY = parseInt(noBtn.style.top) || 0;
                 
                 // Небольшое случайное смещение
-                const newX = Math.max(10, Math.min(currentX + (Math.random() * 40 - 20), mainContainer.offsetWidth - noBtn.offsetWidth - 10));
-                const newY = Math.max(10, Math.min(currentY + (Math.random() * 40 - 20), mainContainer.offsetHeight - noBtn.offsetHeight - 10));
+                const containerWidth = mainContainer.offsetWidth;
+                const containerHeight = mainContainer.offsetHeight;
+                const buttonWidth = noBtn.offsetWidth;
+                const buttonHeight = noBtn.offsetHeight;
+                
+                const newX = Math.max(10, Math.min(
+                    currentX + (Math.random() * 40 - 20), 
+                    containerWidth - buttonWidth - 10
+                ));
+                
+                const newY = Math.max(10, Math.min(
+                    currentY + (Math.random() * 40 - 20), 
+                    containerHeight - buttonHeight - 10
+                ));
                 
                 noBtn.style.left = `${newX}px`;
                 noBtn.style.top = `${newY}px`;
             }
-        });
-        
-        // Возвращаем кнопку на место при уходе курсора (с задержкой)
-        noBtn.addEventListener('mouseout', function() {
-            setTimeout(resetNoButtonPosition, 1000);
         });
         
         // Инициализация при загрузке
@@ -541,35 +564,13 @@
             // Создаем падающие сердечки
             createFallingHearts();
             
-            // Устанавливаем начальную позицию кнопки "Нет"
-            const buttonsContainer = document.querySelector('.buttons-container');
-            const yesBtnRect = yesBtn.getBoundingClientRect();
-            const containerRect = mainContainer.getBoundingClientRect();
-            
-            // Позиция кнопки "Нет" рядом с кнопкой "Да"
-            const noBtnLeft = yesBtnRect.right - containerRect.left + 40;
-            const noBtnTop = yesBtnRect.top - containerRect.top;
-            
-            noBtn.style.position = 'absolute';
-            noBtn.style.left = `${noBtnLeft}px`;
-            noBtn.style.top = `${noBtnTop}px`;
-            
-            // Сохраняем оригинальную позицию
-            noBtnOriginalPosition = {
-                left: noBtnLeft,
-                top: noBtnTop
-            };
-            
             // Убедимся, что гифки загружены
             catGif.src = singleCatGif;
             
-            // Принудительно показываем кнопки
-            yesBtn.style.display = 'block';
-            noBtn.style.display = 'block';
-            yesBtn.style.visibility = 'visible';
+            // Изначально кнопка "Нет" должна быть видимой и кликабельной
             noBtn.style.visibility = 'visible';
-            yesBtn.style.opacity = '1';
             noBtn.style.opacity = '1';
+            noBtn.style.zIndex = '50'; // Очень высокий z-index
         });
     </script>
 </body>
