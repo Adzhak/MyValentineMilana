@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Будешь ли ты моей валентинкой?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            overflow: hidden;
+            transition: background-image 0.8s ease;
+            position: relative;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            border: 10px solid transparent;
+            border-image: linear-gradient(45deg, #ff758c, #ff7eb3) 1;
+        }
+        
+        h1 {
+            color: #ff4d7e;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        p {
+            color: #666;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .hearts {
+            font-size: 2rem;
+            color: #ff4d7e;
+            margin: 20px 0;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .yes-btn {
+            background: linear-gradient(to right, #ff7eb3, #ff758c);
+            color: white;
+        }
+        
+        .no-btn {
+            background: linear-gradient(to right, #6a89cc, #4a69bd);
+            color: white;
+            transition: all 0.1s ease;
+            position: absolute;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .yes-btn:hover {
+            background: linear-gradient(to right, #ff6fa3, #ff6480);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .message {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            animation: fadeIn 1s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .final-title {
+            color: #ff4d7e;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .final-text {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .heart-container {
+            font-size: 4rem;
+            color: #ff4d7e;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.4;
+            z-index: 1;
+            transition: opacity 0.8s ease;
+        }
+        
+        .confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4d7e;
+            top: -10px;
+            opacity: 0.8;
+        }
+        
+        @keyframes fall {
+            0% {
+                top: -10px;
+                transform: rotate(0deg);
+            }
+            100% {
+                top: 100vh;
+                transform: rotate(360deg);
+            }
+        }
+        
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .final-title { font-size: 2.2rem; }
+            .btn { padding: 12px 30px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Фоновые изображения будут меняться динамически -->
+    <div class="background-image" id="background-image" style="background-image: url('https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+    
+    <div class="container" id="main-container">
+        <div class="hearts">
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+        </div>
+        
+        <h1>Будешь ли ты моей валентинкой?</h1>
+        
+        <p>Дорогая, в этот особенный день я хочу спросить тебя об одном очень важном для меня вопросе. Ты делаешь мои дни ярче, а сердце бьется чаще!</p>
+        
+        <div class="buttons-container">
+            <button class="btn yes-btn" id="yes-btn">ДА!</button>
+            <button class="btn no-btn" id="no-btn" style="position: relative;">Нет</button>
+        </div>
+    </div>
+    
+    <!-- Контейнер для конфетти -->
+    <div class="confetti-container" id="confetti-container"></div>
+    
+    <!-- Финальное сообщение (изначально скрыто) -->
+    <div class="container hidden" id="success-container">
+        <div class="heart-container">
+            <i class="fas fa-heart"></i>
+        </div>
+        
+        <h1 class="final-title">УРААА! 🎉</h1>
+        
+        <p class="final-text">Я так счастлив(а)! Ты сделал(а) мой день особенным! С Днем святого Валентина! ❤️</p>
+        
+        <p>Ты - самая лучшая валентинка, о которой я мог(ла) мечтать!</p>
+        
+        <div class="hearts" style="margin-top: 30px;">
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i>
+        </div>
+    </div>
+    
+    <footer>
+        Сделано с ❤️ для особенного человека | День святого Валентина
+    </footer>
+
+    <script>
+        // Массив фоновых изображений (URL из Unsplash, бесплатные для использования)
+        const backgroundImages = [
+            'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1511984804822-e16ba72f5840?ixlib=rb-1.2.1&auto=format&fit=crop&w-1350&q=80',
+            'https://images.unsplash.com/photo-1547483238-2d96f2f6c5ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1516487200032-8532cb603261?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+        ];
+        
+        // Элементы DOM
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const mainContainer = document.getElementById('main-container');
+        const successContainer = document.getElementById('success-container');
+        const backgroundImage = document.getElementById('background-image');
+        const confettiContainer = document.getElementById('confetti-container');
+        
+        let noClicks = 0;
+        let currentImageIndex = 0;
+        
+        // Функция для изменения позиции кнопки "Нет"
+        function moveNoButton() {
+            // Получаем размеры контейнера и кнопки
+            const containerRect = mainContainer.getBoundingClientRect();
+            const buttonRect = noBtn.getBoundingClientRect();
+            
+            // Вычисляем максимальные координаты для кнопки внутри контейнера
+            const maxX = containerRect.width - buttonRect.width - 20;
+            const maxY = containerRect.height - buttonRect.height - 20;
+            
+            // Генерируем случайные координаты
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            // Устанавливаем новые координаты кнопки
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+            
+            // Меняем фоновое изображение после каждого 2го нажатия
+            noClicks++;
+            if (noClicks % 2 === 0) {
+                changeBackgroundImage();
+            }
+        }
+        
+        // Функция для смены фонового изображения
+        function changeBackgroundImage() {
+            // Выбираем следующее изображение из массива
+            currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+            backgroundImage.style.backgroundImage = `url('${backgroundImages[currentImageIndex]}')`;
+        }
+        
+        // Функция для создания конфетти
+        function createConfetti() {
+            // Очищаем контейнер от предыдущих конфетти
+            confettiContainer.innerHTML = '';
+            
+            // Создаем 150 конфетти
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                // Случайный цвет конфетти
+                const colors = ['#ff4d7e', '#ff7eb3', '#ffafbd', '#ffc3a0', '#ffd166', '#ffafcc'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.backgroundColor = randomColor;
+                
+                // Случайный размер
+                const size = Math.random() * 10 + 5;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                
+                // Случайная начальная позиция
+                confetti.style.left = `${Math.random() * 100}vw`;
+                
+                // Случайная анимация
+                const animationDuration = Math.random() * 3 + 2;
+                confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+                
+                // Добавляем конфетти в контейнер
+                confettiContainer.appendChild(confetti);
+            }
+            
+            // Удаляем конфетти через 5 секунд
+            setTimeout(() => {
+                confettiContainer.innerHTML = '';
+            }, 5000);
+        }
+        
+        // Обработчик для кнопки "ДА"
+        yesBtn.addEventListener('click', function() {
+            // Создаем эффект конфетти
+            createConfetti();
+            
+            // Меняем фон на праздничный
+            backgroundImage.style.backgroundImage = "url('https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')";
+            backgroundImage.style.opacity = "0.6";
+            
+            // Показываем финальное сообщение
+            mainContainer.classList.add('hidden');
+            successContainer.classList.remove('hidden');
+            
+            // Добавляем анимацию для финального сообщения
+            successContainer.style.animation = 'fadeIn 1s ease';
+        });
+        
+        // Обработчик для кнопки "Нет"
+        noBtn.addEventListener('mouseover', function() {
+            // Немного двигаем кнопку при наведении
+            if (noClicks > 0) {
+                const buttonRect = noBtn.getBoundingClientRect();
+                noBtn.style.transform = `translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px)`;
+            }
+        });
+        
+        noBtn.addEventListener('click', moveNoButton);
+        
+        // Инициализация - первое фоновое изображение
+        changeBackgroundImage();
+    </script>
+</body>
+</html>
